@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.9.12112.369 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogogramHelper", "LogogramHelper\LogogramHelper.csproj", "{A46F1B81-69E0-45A4-A561-8A3397D8433E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A46F1B81-69E0-45A4-A561-8A3397D8433E}.Debug|x64.ActiveCfg = Debug|x64
+		{A46F1B81-69E0-45A4-A561-8A3397D8433E}.Debug|x64.Build.0 = Debug|x64
+		{A46F1B81-69E0-45A4-A561-8A3397D8433E}.Release|x64.ActiveCfg = Release|x64
+		{A46F1B81-69E0-45A4-A561-8A3397D8433E}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
