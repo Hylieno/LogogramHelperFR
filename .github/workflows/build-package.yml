@@ -1,0 +1,63 @@
+name: Build LogogramHelperFR package
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install Dalamud development files
+        shell: pwsh
+        run: |
+          $dalamudDir = "$env:APPDATA\XIVLauncher\addon\Hooks\dev"
+          New-Item -ItemType Directory -Force -Path $dalamudDir | Out-Null
+          Invoke-WebRequest -Uri "https://goatcorp.github.io/dalamud-distrib/latest.zip" -OutFile "$env:RUNNER_TEMP\dalamud.zip"
+          Expand-Archive -Path "$env:RUNNER_TEMP\dalamud.zip" -DestinationPath $dalamudDir -Force
+
+      - name: Restore
+        run: dotnet restore LogogramHelper.sln
+
+      - name: Build Release
+        run: dotnet build LogogramHelper.sln --configuration Release --no-restore
+
+      - name: Locate and validate package
+        id: package
+        shell: pwsh
+        run: |
+          $zip = Get-ChildItem -Path "LogogramHelper\bin\Release" -Recurse -Filter "latest.zip" | Select-Object -First 1
+          if (-not $zip) { throw "DalamudPackager did not generate latest.zip" }
+          Write-Host "Package: $($zip.FullName)"
+          New-Item -ItemType Directory -Force -Path "dist" | Out-Null
+          Copy-Item $zip.FullName "dist\latest.zip" -Force
+          Expand-Archive -Path "dist\latest.zip" -DestinationPath "$env:RUNNER_TEMP\package-check" -Force
+          if (-not (Test-Path "$env:RUNNER_TEMP\package-check\LogogramHelperFR.dll")) { throw "LogogramHelperFR.dll missing from package" }
+          if (-not (Test-Path "$env:RUNNER_TEMP\package-check\LogogramHelperFR.json")) { throw "LogogramHelperFR.json missing from package" }
+
+      - name: Commit package to main
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add dist/latest.zip
+          if git diff --cached --quiet; then
+            echo "Package already up to date."
+            exit 0
+          fi
+          git commit -m "Build LogogramHelperFR package"
+          git push origin HEAD:main
