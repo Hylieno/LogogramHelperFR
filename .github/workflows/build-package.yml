@@ -40,7 +40,7 @@ jobs:
         id: package
         shell: pwsh
         run: |
-          $zip = Get-ChildItem -Path "LogogramHelper\bin\Release" -Recurse -Filter "latest.zip" | Select-Object -First 1
+          $zip = Get-ChildItem -Path "LogogramHelper\bin" -Recurse -Filter "latest.zip" | Select-Object -First 1
           if (-not $zip) { throw "DalamudPackager did not generate latest.zip" }
           Write-Host "Package: $($zip.FullName)"
           New-Item -ItemType Directory -Force -Path "dist" | Out-Null
