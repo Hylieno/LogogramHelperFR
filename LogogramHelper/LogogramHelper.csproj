@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+  <PropertyGroup>
+    <Authors>apetih; modified FR+</Authors>
+    <Version>0.1.6.0</Version>
+    <Description>Logogram Helper avec interface française, /logo, sauvegarde du stock et sources des logogrammes.</Description>
+    <PackageProjectUrl>https://github.com/Hylieno/LogogramHelperFR</PackageProjectUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\res\data\logograms.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><Visible>false</Visible></Content>
+    <Content Include="..\res\data\logosActions.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><Visible>false</Visible></Content>
+    <Content Include="..\res\data\itemContents.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory><Visible>false</Visible></Content>
+  </ItemGroup>
+</Project>
